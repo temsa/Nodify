@@ -1,3 +1,4 @@
+debug = require('debug')('nodify')
 request = require 'request'
 querystring = require 'querystring'
 singleton = require 'singleton'
@@ -8,6 +9,8 @@ class Resource extends singleton
 
   __request__: (url, slug, method, fields, callback) =>
     [fields, callback] = [callback, fields] if typeof fields is 'function'
+
+    debug "sending a #{method} request to #{url}"
 
     options =
       uri: url
@@ -26,16 +29,16 @@ class Resource extends singleton
     request options, ( err, response, body) ->
       status = parseInt response.statusCode
 
+      debug "received a #{status} response"      
+
       if status >= 300 then err = new Error "Status code #{status}" else err = null
       unless err?
-        process.nextTick ->
-          body = body[slug] if slug isnt 'oauth'
-          body = slug if method is "DELETE"
-          callback err, body
+        body = body[slug] if slug isnt 'oauth'
+        body = slug if method is "DELETE"
+        callback err, body
       else
-        process.nextTick ->
-          console.log body
-          callback err
+        console.log body
+        callback err
 
   get: (url, slug, callback) =>
     @__request__(url, slug, 'GET', callback)
