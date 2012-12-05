@@ -16,7 +16,8 @@
   },
   "dependencies": {
     "request": "2.9.x"
-    ,"singleton":"*"
+  , "debug": "~0.7.0"
+  , "singleton":"*"
   },
   "devDependencies": {
     "mocha": "0.12.x",
