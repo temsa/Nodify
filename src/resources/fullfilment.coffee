@@ -8,12 +8,12 @@ class Fulfillment extends BaseChild
 	constructor: (site) ->
 		super(site)
 
-	cancel: (orderId, id, callback) ->
+	cancel: (orderId, id, callback) =>
 		callback new Error 'missing id' unless id?
 		url = @resource.queryString "#{@prefix}/#{parentId}#{@child}/#{id}"
 		@resource.post url, @slug, callback
 
-	delete: (orderId, id, callback) ->
+	delete: (orderId, id, callback) =>
 		@cancel(orderId, id, callback)
 
 module.exports = Fulfillment

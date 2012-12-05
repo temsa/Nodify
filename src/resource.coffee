@@ -6,7 +6,7 @@ class Resource extends singleton
 
   constructor: (@oauth = no) ->  
 
-  __request__: (url, slug, method, fields, callback) ->
+  __request__: (url, slug, method, fields, callback) =>
     [fields, callback] = [callback, fields] if typeof fields is 'function'
 
     options =
@@ -37,19 +37,19 @@ class Resource extends singleton
           console.log body
           callback err
 
-  get: (url, slug, callback) ->
+  get: (url, slug, callback) =>
     @__request__(url, slug, 'GET', callback)
 
-  post: (url, slug, fields, callback) ->
+  post: (url, slug, fields, callback) =>
     @__request__(url, slug, 'POST', fields, callback)
 
-  put: (url, slug, fields, callback) ->
+  put: (url, slug, fields, callback) =>
     @__request__(url, slug, 'PUT', fields, callback)
 
-  delete: (url, slug, callback) ->
+  delete: (url, slug, callback) =>
     @__request__(url, slug, 'DELETE', callback)
 
-  queryString: (url, params, format = "json") ->
+  queryString: (url, params, format = "json") =>
     query = "#{url}.#{format}"
 
     if params
@@ -59,7 +59,7 @@ class Resource extends singleton
     return query
 
 
-  setOAuthToken:(@oauth_token)->
+  setOAuthToken:(@oauth_token)=>
     @oauth = @oauth_token?
 
 

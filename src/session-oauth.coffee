@@ -25,7 +25,7 @@ class SessionOAuth extends Session
         process.nextTick =>
           cb(@store_name, @persistent_token)
 
-  requestPermanentAccessToken:(temp_token, cb)->
+  requestPermanentAccessToken:(temp_token, cb)=>
     params = "client_id=#{@api_key}&client_secret=#{@secret}&code=#{temp_token}"
     Resource.post "#{@site()}/oauth/access_token", 'oauth', params, (err, response)=>
       if err?
@@ -45,10 +45,13 @@ class SessionOAuth extends Session
     else
       @params.onAskToken.call this, null, uri_base
 
-  site:()->
+  site:()=>
     "#{@protocol}://#{@store_name}.myshopify.com/admin"
 
-  registerOAuthToken:(params)->
+  valid: ->
+    not empty(@url) and not empty(@persistent_token)
+    
+  registerOAuthToken:(params)=>
     if @persistent_token isnt null
       Resource.setOAuthToken @persistent_token
     else if typeof @params.onAskToken == 'function'
@@ -57,7 +60,7 @@ class SessionOAuth extends Session
       throw Error("No onAskToken callback defined for getting temporary oauth2 token from Shopify, and no persistent token defined either in session")
       
 
-  getScope:(@scope)->
+  getScope:(@scope)=>
     types = ['content', 'themes', 'products', 'customers', 'orders', 'script_tags', 'shipping'];
     scope = [];
     @scope = @scope || @params.scope || {};

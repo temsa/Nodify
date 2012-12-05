@@ -7,7 +7,7 @@ class CustomerGroup extends Base
 	constructor: (site) ->
 		super(site)
 
-	customers: (id, callback) ->
+	customers: (id, callback) =>
 		callback new Error 'missing id' unless id?
 		url = @resource.queryString "#{@prefix}/#{id}/customers"
 		@resource.post url, "customers", callback

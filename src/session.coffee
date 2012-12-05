@@ -74,20 +74,26 @@ class Session
       @article = new Article(@site())
       @asset = new Asset(@site())
       @blog = new Blog(@site())
+      @blogMetafield = new Metafield(@blog, @site())
       @cart = new Cart(@site())
       @collect = new Collect(@site())
       @comment =  new Comment(@site())
       @country = new Country(@site())
       @customCollection = new CustomCollection(@site())
+      @customCollectionMetafield = new Metafield(@customCollection, @site())
       @customer = new Customer(@site())
+      @customerMetafield = new Metafield(@customer, @site())
       @customerGroup = new CustomerGroup(@site())
       @event = new Event(@site())
       @fullfilment = new Fullfilment(@site())
       @metafield = new Metafield(@site())
       @order = new Order(@site())
+      @orderMetafield = new Metafield(@order, @site())
       @page = new Page(@site())
+      @pageMetafield = new Metafield(@product, @site())
       @product = new Product(@site())
       @productImage = new ProductImage(@site())
+      @productMetafield = new Metafield(@product, @site())
       @productVariant = new ProductVariant(@site())
       @productSearchEngine = new ProductSearchEngine(@site())
       @province = new Province(@site())
@@ -95,6 +101,11 @@ class Session
       @redirect = new Redirect(@site())
       @scriptTags = new ScriptTags(@site())
       @shop = new Shop(@site())
+      @smartCollection = new SmartCollection(@site())
+      @smartCollectionMetafield = new Metafield(@smartCollection, @site())
+      @theme = new Theme(@site())
+      @transaction = new Transaction(@site())
+      @webhook = new Webhook(@site())
 
   createPermissionUrl: ->
     "http://#{@url}/admin/api/auth?api_key=#{@apiKey}" if not empty(@url) and not empty(@apiKey)
@@ -103,7 +114,7 @@ class Session
     "#{@protocol}://#{@apiKey}:#{@computedPassword()}@#{@url}/admin"
 
   valid: ->
-    not empty(@url) and not empty(@persistent_token)
+    not empty(@url)
 
   prepareUrl: (url) ->
     return '' if empty(url)

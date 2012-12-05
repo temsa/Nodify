@@ -10,7 +10,7 @@ class Product extends Base
 		super(site)
 		
 
-	events: (id, params, callback) ->
+	events: (id, params, callback) =>
 		[params, callback] = [callback, params] if typeof params is 'function'
 		callback new Error 'missing id' unless id?
 		url = @resource.queryString "#{@prefix}/#{id}/events", params

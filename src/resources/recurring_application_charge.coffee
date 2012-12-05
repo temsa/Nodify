@@ -7,7 +7,7 @@ class RecurringApplicationCharge extends Base
 	constructor: (site) ->
 		super(site)
 
-	activate: (id, callback) ->
+	activate: (id, callback) =>
 		callback new Error 'missing id' unless id?
 		url = @resource.queryString "#{@prefix}/#{id}/activate"
 		@resource.post url, @slug, callback
