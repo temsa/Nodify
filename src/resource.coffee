@@ -1,4 +1,6 @@
 debug = require('debug')('nodify')
+debugRequest = require('debug')('nodify:request')
+debugResponse = require('debug')('nodify:response')
 request = require 'request'
 querystring = require 'querystring'
 singleton = require 'singleton'
@@ -26,17 +28,24 @@ class Resource extends singleton
       else
         options.body = fields
 
+    debugRequest "#{url} request body:", options.body
+
     request options, ( err, response, body) ->
       status = parseInt response.statusCode
 
-      debug "received a #{status} response"      
+      debug "received a #{status} response from #{url}"
 
       if status >= 300 then err = new Error "Status code #{status}" else err = null
       unless err?
         body = body[slug] if slug isnt 'oauth'
         body = slug if method is "DELETE"
+
+        debugResponse "#{url} response", body || ''
         callback err, body
+        
       else
+        debugResponse "#{url} got a #{status} error", err, body || ''
+
         console.log body
         callback err
 

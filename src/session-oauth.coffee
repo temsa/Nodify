@@ -4,6 +4,13 @@ Order = require './resources/order'
 Resource = require './resource'
 Session = require './session'
 
+utils =  require './utils'
+
+trim = utils.trim
+empty = utils.empty
+sortObj = utils.sortObj
+isNumeric = utils.isNumeric
+
 class SessionOAuth extends Session
 
   constructor:(@store_name, @api_key, @secret, params = {})->

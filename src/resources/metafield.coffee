@@ -4,7 +4,11 @@ class Metafield extends BaseChild
 	slug: "metafield"
 	child: "/metafields"
 
-	constructor: (@parent, site) =>
+	constructor: (@parent, site) ->
 		super(site)
+
+	create: (parentId, fields, callback) =>
+		url = @resource.queryString "#{@prefix}/#{parentId}#{@child}"
+		@resource.post url, @slug, fields, callback
 
 module.exports = Metafield

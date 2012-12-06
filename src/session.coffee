@@ -29,30 +29,12 @@ Theme = require './resources/theme'
 Transaction = require './resources/transaction'
 Webhook = require './resources/webhook'
 
-trim = (string) ->
-  string.replace(/^\s\s*/, '').replace(/\s\s*$/, '')
+utils =  require './utils'
 
-empty = (string)->
-  string = trim(string)
-  string.length is 0 
-
-sortObj = (o) ->
-  sorted = {}
-  a = []
-
-  for key of o 
-    if o.hasOwnProperty key
-      a.push key
-
-  a.sort()
-
-  for key in [0..a.length] 
-    sorted[a[key]] = o[a[key]]
-  
-  return sorted
-
-isNumeric = (n) ->
-  !isNaN(parseFloat(n)) and isFinite(n)
+trim = utils.trim
+empty = utils.empty
+sortObj = utils.sortObj
+isNumeric = utils.isNumeric
 
 
 class Session
