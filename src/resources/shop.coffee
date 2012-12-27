@@ -7,7 +7,8 @@ class Shop extends Base
 	constructor: (site) ->
 		super(site)
 
-	get: (callback) =>
+	get: (params, callback) =>
+		[params, callback] = [callback, params = params or null ] if typeof params is 'function'
 		url = @resource.queryString "#{@prefix}", params
 		@resource.get url, @slug, callback
 
