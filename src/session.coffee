@@ -83,6 +83,7 @@ class Session
       @redirect = new Redirect(@site())
       @scriptTags = new ScriptTags(@site())
       @shop = new Shop(@site())
+      @shopMetafield = new Metafield('/shop', @site())
       @smartCollection = new SmartCollection(@site())
       @smartCollectionMetafield = new Metafield('/smart_collections', @site())
       @theme = new Theme(@site())
