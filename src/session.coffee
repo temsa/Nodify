@@ -68,7 +68,7 @@ class Session
       @customerGroup = new CustomerGroup(@site())
       @event = new Event(@site())
       @fullfilment = new Fullfilment(@site())
-      @metafield = new Metafield('',@site())
+      @metafield = new Metafield('', @site())
       @order = new Order(@site())
       @orderMetafield = new Metafield('/orders', @site())
       @page = new Page(@site())
@@ -83,7 +83,7 @@ class Session
       @redirect = new Redirect(@site())
       @scriptTags = new ScriptTags(@site())
       @shop = new Shop(@site())
-      @shopMetafield = new Metafield('/shop', @site())
+      @shopMetafield = @metafield
       @smartCollection = new SmartCollection(@site())
       @smartCollectionMetafield = new Metafield('/smart_collections', @site())
       @theme = new Theme(@site())

@@ -30,7 +30,9 @@ class Resource extends singleton
 
     debugRequest "#{url} request body:", options.body
 
-    request options, ( err, response, body) ->
+    request options, (err, response, body) ->
+      if err isnt null then callback err
+
       status = parseInt response.statusCode
 
       debug "received a #{status} response from #{url}"
