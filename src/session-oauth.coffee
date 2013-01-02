@@ -27,20 +27,22 @@ class SessionOAuth extends Session
   onRedirectUrl:(url, cb)->
     url.replace /\?code=[\w\d]+/, (code)=>
       temp_token = code.split('=')[1]
-      @requestPermanentAccessToken temp_token, (@persistent_token)=>
+      @requestPermanentAccessToken temp_token, (err, @persistent_token) =>
+        if(err)
+          cb err
         @registerOAuthToken()
         process.nextTick =>
-          cb(@store_name, @persistent_token)
+          cb null, @store_name, @persistent_token 
 
   requestPermanentAccessToken:(temp_token, cb)=>
     params = "client_id=#{@api_key}&client_secret=#{@secret}&code=#{temp_token}"
     Resource.post "#{@site()}/oauth/access_token", 'oauth', params, (err, response)=>
       if err?
-        throw err
+        cb err
         return
       response = JSON.parse response
       process.nextTick ->
-        cb response.access_token
+        cb null, response.access_token
 
   requestTemporaryAccessToken:()=>
     scope = @getScope()
@@ -63,8 +65,8 @@ class SessionOAuth extends Session
       Resource.setOAuthToken @persistent_token
     else if typeof @params.onAskToken == 'function'
       @requestTemporaryAccessToken()
-    else
-      throw Error("No onAskToken callback defined for getting temporary oauth2 token from Shopify, and no persistent token defined either in session")
+    #else
+    #  throw Error("No onAskToken callback defined for getting temporary oauth2 token from Shopify, and no persistent token defined either in session")
       
 
   getScope:(@scope)=>
