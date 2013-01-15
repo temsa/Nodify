@@ -7,7 +7,7 @@ singleton = require 'singleton'
 
 class Resource extends singleton
 
-  constructor: (@oauth = no, @onErr = ()-> ) ->  
+  constructor: (@oauth = no, @onErr = ()->true ) ->  
 
   __request__: (url, slug, method, fields, callback) =>
     [fields, callback] = [callback, fields] if typeof fields is 'function'
@@ -31,7 +31,7 @@ class Resource extends singleton
 
     debugRequest "#{url} request body:", options.body
 
-    request options, (err, response, body) ->
+    request options, (err, response, body) =>
       if err isnt null then callback err
 
       status = parseInt response.statusCode
@@ -51,7 +51,8 @@ class Resource extends singleton
 
         console.log body
         error.cause = body
-        callback error
+        callback error if @onErr error
+        
 
   get: (url, slug, callback) =>
     @__request__(url, slug, 'GET', callback)
@@ -77,6 +78,8 @@ class Resource extends singleton
 
   setOAuthToken:(@oauth_token)=>
     @oauth = @oauth_token?
+
+  error: (@onErr = ()->true ) =>
 
 
 module.exports = Resource.get()

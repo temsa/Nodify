@@ -1,7 +1,7 @@
 crypto = require 'crypto'
 ApplicationCharge = require './resources/application_charge'
 Article = require './resources/article'
-Asset = require './resources/asset'
+Asset = require './resources/asset' 
 Blog = require './resources/blog'
 Cart = require './resources/cart'
 Collect = require './resources/collect'
@@ -41,7 +41,10 @@ class Session
 
   protocol: "https"
 
+
   constructor: (@url, @apiKey, @secret, @params = {}) ->
+    if @params['error']?
+      @error @params['error']
 
     if @params['signature']?
       timestamp = (new Date(@params['timestamp'])).getTime()
@@ -87,6 +90,7 @@ class Session
       @smartCollection = new SmartCollection(@site())
       @smartCollectionMetafield = new Metafield('/smart_collections', @site())
       @theme = new Theme(@site())
+      @themeAsset = new Asset('/themes', @site())
       @transaction = new Transaction(@site())
       @webhook = new Webhook(@site())
 
@@ -98,6 +102,7 @@ class Session
 
   valid: ->
     not empty(@url)
+
 
   prepareUrl: (url) ->
     return '' if empty(url)
