@@ -51,7 +51,8 @@ class Resource extends singleton
 
         console.log body
         error.cause = body
-        callback error if @onErr error
+        @onErr error, url
+        callback error 
         
 
   get: (url, slug, callback) =>
