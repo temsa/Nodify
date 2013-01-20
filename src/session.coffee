@@ -80,6 +80,7 @@ class Session
       @productImage = new ProductImage(@site())
       @productMetafield = new Metafield('/products', @site())
       @productVariant = new ProductVariant(@site())
+      @productVariantMetafield = new Metafield('/variants', @site())
       @productSearchEngine = new ProductSearchEngine(@site())
       @province = new Province(@site())
       @recurringApplicationCharge = new RecurringApplicationCharge(@site())
