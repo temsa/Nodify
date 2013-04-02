@@ -57,7 +57,7 @@ class Session
     if @valid
       @applicationCharge = new ApplicationCharge(@site())
       @article = new Article(@site())
-      @asset = new Asset(@site())
+      @asset = new Asset('/themes', @site())
       @blog = new Blog(@site())
       @blogMetafield = new Metafield('/blogs', @site())
       @cart = new Cart(@site())
