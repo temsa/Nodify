@@ -1,6 +1,7 @@
 debug = require('debug')('nodify')
 debugRequest = require('debug')('nodify:request')
 debugResponse = require('debug')('nodify:response')
+debugToken = require('debug')('nodify:token')
 request = require 'request'
 querystring = require 'querystring'
 singleton = require 'singleton'
@@ -30,6 +31,7 @@ class Resource extends singleton
         options.body = fields
 
     debugRequest "#{url} request body:", options.body
+    debugToken "#{url} token is #{options.headers['X-Shopify-Access-Token']}"
 
     request options, (err, response, body) =>
       if err isnt null then callback err
