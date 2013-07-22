@@ -35,12 +35,16 @@ class SessionOAuth extends Session
           cb null, @store_name, @persistent_token 
 
   requestPermanentAccessToken:(temp_token, cb)=>
-    params = "client_id=#{@api_key}&client_secret=#{@secret}&code=#{temp_token}"
+    params =
+      client_id: @api_key
+      client_secret: @secret
+      code: temp_token
+
     Resource.post "#{@site()}/oauth/access_token", 'oauth', params, (err, response)=>
       if err?
         cb err
         return
-      response = JSON.parse response
+      #response = JSON.parse response
       process.nextTick ->
         cb null, response.access_token
 
@@ -50,7 +54,7 @@ class SessionOAuth extends Session
       @params.onAskToken(Error("No Shopify scope defined, cannot ask for no right"))
     uri_base = "#{@site()}/oauth/authorize?client_id=#{@api_key}&scope=#{scope}"
     if(@params.uriForTemporaryToken)
-      @params.onAskToken.call this, null, "#{uri_base}&redirect_uri=#{@params.uriForTemporaryToken}"
+      @params.onAskToken.call this, null, "#{uri_base}&redirect_url=#{@params.uriForTemporaryToken}"
     else
       @params.onAskToken.call this, null, uri_base
 

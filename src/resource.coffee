@@ -16,19 +16,28 @@ class Resource extends singleton
 
     debug "sending a #{method} request to #{url}"
 
-    options =
-      uri: url
-      method: method
-      json: slug isnt 'oauth'
-      headers:if @oauth is yes and @oauth_token? then {'X-Shopify-Access-Token':@oauth_token} else {}
+    headers = {}
+    if @oauth is yes and @oauth_token? then headers['X-Shopify-Access-Token'] = @oauth_token
 
     if fields?
       params = {}
       if slug isnt 'oauth' 
         params[slug] = fields 
-        options.body = JSON.stringify(params)
+        body = JSON.stringify(params)
       else
-        options.body = fields
+        body = JSON.stringify(fields)
+
+    if body?
+      headers['Content-Length']= body.length
+
+    options =
+      uri: url
+      method: method
+      json: true
+      headers: headers
+
+    if body?
+      options.body = body
 
     debugRequest "#{url} request body:", options.body
     debugToken "#{url} token is #{options.headers['X-Shopify-Access-Token']}"
